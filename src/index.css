@@ -1,0 +1,128 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+	:root {
+		--background: 0 0% 100%; /* Blanco puro */
+		--foreground: 215 63% 19%; /* Azul Oscuro para texto general */
+
+		--card: 0 0% 100%;
+		--card-foreground: 215 63% 19%;
+
+		--popover: 0 0% 100%;
+		--popover-foreground: 215 63% 19%;
+
+		--primary: 27 90% 54%; /* Naranja: #f58220 */
+		--primary-foreground: 0 0% 100%; /* Blanco para texto sobre naranja */
+
+		--secondary: 215 63% 19%; /* Azul Oscuro: #13294b */
+		--secondary-foreground: 0 0% 100%; /* Blanco para texto sobre azul oscuro */
+
+		--muted: 220 10% 95%; /* Gris claro para fondos sutiles */
+		--muted-foreground: 215 15% 45%; /* Gris medio para texto silenciado */
+
+		--accent: 27 90% 54%; /* Naranja como color de acento */
+		--accent-foreground: 0 0% 100%;
+
+		--destructive: 0 84.2% 60.2%;
+		--destructive-foreground: 0 0% 98%;
+
+		--border: 220 15% 88%; /* Borde gris claro */
+		--input: 220 15% 88%;
+		--ring: 27 90% 54%; /* Naranja para anillos de enfoque */
+
+		--radius: 0.75rem; /* Bordes redondeados */
+
+    /* RGB values for box shadows with primary color */
+    --primary-rgb: 245, 130, 32;
+	}
+
+	.dark {
+		/* Dark mode can be configured later if needed, for now using light mode values */
+		--background: 215 63% 10%; /* Azul muy oscuro para fondo */
+		--foreground: 0 0% 98%; /* Blanco para texto general */
+
+		--card: 215 63% 15%;
+		--card-foreground: 0 0% 98%;
+
+		--popover: 215 63% 15%;
+		--popover-foreground: 0 0% 98%;
+
+		--primary: 27 90% 54%; 
+		--primary-foreground: 0 0% 100%;
+
+		--secondary: 27 80% 45%; /* Naranja más oscuro para modo oscuro */
+		--secondary-foreground: 0 0% 100%;
+
+		--muted: 215 30% 25%;
+		--muted-foreground: 215 10% 65%;
+
+		--accent: 27 90% 54%;
+		--accent-foreground: 0 0% 100%;
+
+		--destructive: 0 70% 50%;
+		--destructive-foreground: 0 0% 98%;
+
+		--border: 215 30% 30%;
+		--input: 215 30% 30%;
+		--ring: 27 90% 54%;
+    --primary-rgb: 245, 130, 32; /* Re-declare for dark mode if needed */
+	}
+}
+
+@layer base {
+	* {
+		@apply border-border;
+	}
+	body {
+		@apply bg-background text-foreground;
+		font-family: 'Nunito', sans-serif;
+	}
+	h1, h2, h3, h4, h5, h6 {
+		@apply font-semibold text-secondary; /* Azul oscuro para encabezados */
+	}
+}
+
+/* Custom scrollbar for a modern look */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: hsl(var(--muted));
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--primary) / 0.7);
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--primary));
+}
+
+.btn-primary {
+	@apply bg-primary text-primary-foreground hover:bg-primary/90;
+}
+
+.btn-secondary {
+	@apply bg-secondary text-secondary-foreground hover:bg-secondary/90;
+}
+
+/* Custom scrollbar for code blocks, if needed */
+.custom-scrollbar::-webkit-scrollbar {
+  height: 6px; /* For horizontal scrollbar */
+  width: 6px; /* For vertical scrollbar */
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: hsl(var(--muted) / 0.5);
+  border-radius: 8px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: hsl(var(--primary) / 0.6);
+  border-radius: 8px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--primary) / 0.8);
+}
