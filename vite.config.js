@@ -1,6 +1,6 @@
 import path from 'node:path';
 import react from '@vitejs/plugin-react';
-import { createLogger, defineConfig } from 'vite';
+import { createLogger, defineConfig, loadEnv } from 'vite';
 
 const configHorizonsViteErrorHandler = `
 const observer = new MutationObserver((mutations) => {
@@ -68,7 +68,7 @@ window.onerror = (message, source, lineno, colno, errorObj) => {
 };
 `;
 
-const configHorizonsConsoleErrroHandler = `
+const configHorizonsConsoleErrorHandler = `
 const originalConsoleError = console.error;
 console.error = function(...args) {
 	originalConsoleError.apply(console, args);
@@ -154,7 +154,7 @@ const addTransformIndexHtml = {
 				{
 					tag: 'script',
 					attrs: {type: 'module'},
-					children: configHorizonsConsoleErrroHandler,
+					children: configHorizonsConsoleErrorHandler,
 					injectTo: 'head',
 				},
 				{
@@ -181,20 +181,25 @@ logger.error = (msg, options) => {
 	loggerError(msg, options);
 }
 
-export default defineConfig({
-	customLogger: logger,
-	plugins: [react(), addTransformIndexHtml],
-	server: {
-		cors: true,
-		headers: {
-			'Cross-Origin-Embedder-Policy': 'credentialless',
+export default defineConfig(({ mode }) => {
+	const env = loadEnv(mode, process.cwd());
+	const isDev = mode === 'development';
+
+	return {
+		customLogger: logger,
+		plugins: [react(), ...(isDev ? [addTransformIndexHtml] : [])],
+		server: {
+			cors: true,
+			headers: {
+				'Cross-Origin-Embedder-Policy': 'credentialless',
+			},
+			allowedHosts: true,
 		},
-		allowedHosts: true,
-	},
-	resolve: {
-		extensions: ['.jsx', '.js', '.tsx', '.ts', '.json', ],
-		alias: {
-			'@': path.resolve(__dirname, './src'),
+		resolve: {
+			extensions: ['.jsx', '.js', '.tsx', '.ts', '.json'],
+			alias: {
+				'@': path.resolve(__dirname, './src'),
+			},
 		},
-	},
+	};
 });

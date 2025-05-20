@@ -1,11 +1,10 @@
-
 import React from 'react';
 import BusinessCard from '@/components/BusinessCard.jsx';
 import { Search } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const BusinessList = ({ businesses }) => {
-  if (businesses.length === 0) {
+  if (!businesses || businesses.length === 0) {
     return (
       <motion.div 
         initial={{ opacity: 0 }}

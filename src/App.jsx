@@ -1,5 +1,4 @@
-
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
 import Layout from '@/components/Layout';
 import HomePage from '@/pages/HomePage';
@@ -32,6 +31,20 @@ const PageWrapper = ({ children, title, description, canonicalPath }) => {
 };
 
 function App() {
+  const [showInstallButton, setShowInstallButton] = useState(false);
+
+  useEffect(() => {
+    const handleBeforeInstallPrompt = () => {
+      setShowInstallButton(true);
+    };
+
+    window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+
+    return () => {
+      window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+    };
+  }, []);
+
 	return (
 		<Router>
 			<Layout>
@@ -49,6 +62,16 @@ function App() {
           <Route path="/sitemap" element={<PageWrapper title="Sitemap XML de IztapaMarket" description="Página técnica de sitemap.xml para Google y buscadores." canonicalPath="/sitemap"><SitemapDisplayPage /></PageWrapper>} />
 					<Route path="*" element={<PageWrapper title="Página no encontrada" description="La página que buscas no existe en IztapaMarket."><NotFoundPage /></PageWrapper>} />
 				</Routes>
+        {showInstallButton && (
+          <div className="fixed bottom-20 right-4 z-50">
+            <button
+              onClick={() => window.promptInstallPWA?.()}
+              className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded shadow-lg"
+            >
+              Instalar IztapaMarket
+            </button>
+          </div>
+        )}
 				<Toaster />
 			</Layout>
 		</Router>

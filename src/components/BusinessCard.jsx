@@ -29,10 +29,18 @@ const BusinessCard = ({ business, className = '' }) => {
     menuItems,
     website,
     videoEmbedUrl,
-    categoryDisplay 
+    categoryDisplay,
+    slug_categoria
   } = business;
   
-  const categoryDetails = allCategories.find(cat => cat.name === categoryDisplay || cat.dbName === categoryDisplay || cat.slug === categoryDisplay || cat.name === category || cat.dbName === category);
+  const categoryDetails = allCategories.find(cat =>
+    cat.name === categoryDisplay ||
+    cat.dbName === categoryDisplay ||
+    cat.slug === categoryDisplay ||
+    cat.name === category ||
+    cat.dbName === category ||
+    cat.slug === slug_categoria
+  );
   const CategoryIconComponent = categoryDetails ? categoryDetails.icon : defaultCategoryIcon;
 
   const finalImageUrl = images?.[0] || logoUrl || `https://source.unsplash.com/random/600x400/?business,${encodeURIComponent(categoryDisplay || 'abstract')}&cachebust=${id}`;
@@ -62,8 +70,8 @@ const BusinessCard = ({ business, className = '' }) => {
           <div className="relative aspect-[16/10] overflow-hidden">
             <Link to={`/negocio/${id}`} aria-label={`Ver detalles de ${name}`}>
               <img  
-                class="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
-                alt={`Imagen de ${name}`} src="https://images.unsplash.com/photo-1556491251-781a951fbc79" />
+                className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+                alt={`Imagen de ${name}`} src={finalImageUrl} />
             </Link>
             {categoryDisplay && CategoryIconComponent && (
               <div className="absolute top-3 right-3 bg-primary/80 backdrop-blur-sm text-primary-foreground px-3 py-1.5 rounded-full text-xs font-semibold flex items-center shadow-md">
