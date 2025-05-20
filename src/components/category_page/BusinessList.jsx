@@ -27,7 +27,7 @@ const BusinessList = ({ businesses }) => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: index * 0.1, duration: 0.4 }}
         >
-          <BusinessCard business={{...business, category: business.categoryDisplay || business.category }} />
+          <BusinessCard business={{...business, category: business.categoryDisplay || business.category, slug_categoria: business.slug_categoria }} />
         </motion.div>
       ))}
     </div>

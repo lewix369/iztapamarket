@@ -43,7 +43,11 @@ const BusinessCard = ({ business, className = '' }) => {
   );
   const CategoryIconComponent = categoryDetails ? categoryDetails.icon : defaultCategoryIcon;
 
-  const finalImageUrl = images?.[0] || logoUrl || `https://source.unsplash.com/random/600x400/?business,${encodeURIComponent(categoryDisplay || 'abstract')}&cachebust=${id}`;
+  const finalImageUrl =
+    images?.[0] ||
+    logoUrl ||
+    `/placeholder-${categoryDetails?.slug || 'generico'}.jpg` ||
+    '/fallback.jpg';
 
 
   const isValidYoutubeLink = (url) => {
@@ -69,9 +73,12 @@ const BusinessCard = ({ business, className = '' }) => {
         <Card className="h-full flex flex-col overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 rounded-xl border border-border/20 bg-card text-card-foreground">
           <div className="relative aspect-[16/10] overflow-hidden">
             <Link to={`/negocio/${id}`} aria-label={`Ver detalles de ${name}`}>
-              <img  
+              <img
                 className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
-                alt={`Imagen de ${name}`} src={finalImageUrl} />
+                alt={`Imagen de ${name}`}
+                src={finalImageUrl}
+                onError={(e) => { e.target.src = '/fallback.jpg'; }}
+              />
             </Link>
             {categoryDisplay && CategoryIconComponent && (
               <div className="absolute top-3 right-3 bg-primary/80 backdrop-blur-sm text-primary-foreground px-3 py-1.5 rounded-full text-xs font-semibold flex items-center shadow-md">

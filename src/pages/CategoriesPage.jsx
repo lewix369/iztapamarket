@@ -24,7 +24,8 @@ const CategoryBusinessesPage = () => {
         const { data, error } = await supabase
           .from('negocios')
           .select('*')
-          .eq('slug_categoria', decodedSlug);
+          .ilike('slug_categoria', decodedSlug)
+          .order('created_at', { ascending: false });
 
         if (error) {
           throw new Error(error.message || 'Error desconocido al obtener negocios');

@@ -3,11 +3,11 @@ import { supabase } from '@/lib/supabaseClient.jsx';
 
 const ALL_BUSINESS_FIELDS = 'id, nombre, descripcion, categoria, direccion, whatsapp, imagen_url, logo_url, web, hours, gallery_images, menu, telefono, plan_type, video_embed_url, mapa_embed_url, created_at, instagram, facebook, services';
 
-export const fetchBusinessesByCategory = async (categoryName) => {
+export const fetchBusinessesByCategory = async (categorySlug) => {
   const { data, error } = await supabase
     .from('negocios')
     .select(ALL_BUSINESS_FIELDS)
-    .eq('categoria', categoryName)
+    .eq('slug_categoria', categorySlug)  // <--- aquí estaba el error
     .order('created_at', { ascending: false });
 
   if (error) {
@@ -38,7 +38,7 @@ export const fetchRelatedBusinesses = async (categoryName, currentBusinessId, li
   const { data, error } = await supabase
     .from('negocios')
     .select(ALL_BUSINESS_FIELDS)
-    .eq('categoria', categoryName)
+    .eq('slug_categoria', categoryName)
     .neq('id', currentBusinessId)
     .order('created_at', { ascending: false })
     .limit(limit);
